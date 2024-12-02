@@ -6,12 +6,12 @@
 #include <map>
 #include <SFML/Graphics.hpp>
 
-constexpr float RADIUS_SCALE = 10e-6f;
-constexpr float DISTANCE_SCALE = 10e-7f;
+constexpr float RADIUS_SCALE = 10e-8f;
+constexpr float DISTANCE_SCALE = 1e-9f;
 
 struct Planet {
     float mass;            // kg
-    float radius;          // m
+    float radius;          // m Purely for Scale Purposes no impact on Physics
     sf::Vector2f velocity; // (m/s, m/s)
     sf::Vector2f position; // (m, m)
     sf::CircleShape shape;

@@ -10,7 +10,7 @@ Planet::Planet(const float mass, const float radius, const sf::Vector2f velocity
         shape.setFillColor(color);
         shape.setOrigin(shape.getRadius(), shape.getRadius());
         shape.setPosition(position.x * DISTANCE_SCALE, position.y * DISTANCE_SCALE);
-    }
+    }   
 
 bool PlanetGroup::addPlanet(const std::string& name, const Planet& p) {
     auto result = planets.emplace(name, p);

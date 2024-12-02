@@ -5,14 +5,26 @@
 
 int main() {
     PlanetGroup group;
+    Planet sun(1.989e30f, 6.9634e8f, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Color::Yellow, true);
+    Planet mercury(3.3011e23f, 2.4397e6f, sf::Vector2f(0.0f, 47360.0f), sf::Vector2f(57.9e9f, 0.0f), sf::Color::White, false);
+    Planet venus(4.8675e24f, 6.0518e6f, sf::Vector2f(0.0f, 35020.0f), sf::Vector2f(108.2e9f, 0.0f), sf::Color(255, 160, 122), false);
+    Planet earth(5.9724e24f, 6.3710e6f, sf::Vector2f(0.0f, 29780.0f), sf::Vector2f(149.6e9f, 0.0f), sf::Color::Blue, false); 
+    Planet mars(6.4171e23f, 3.3895e6f, sf::Vector2f(0.0f, 24070.0f), sf::Vector2f(227.9e9f, 0.0f), sf::Color::Red, false);
+    Planet jupiter(1.8982e27f, 6.9911e7f, sf::Vector2f(0.0f, 13070.0f), sf::Vector2f(778.6e9f, 0.0f), sf::Color(218,165,32), false);
+    Planet saturn(5.6834e26f, 5.8232e7f, sf::Vector2f(0.0f, 9680.0f), sf::Vector2f(1.4335e12f, 0.0f), sf::Color(210,180,140), false);
+    Planet uranus(8.6810e25f, 2.5362e7f, sf::Vector2f(0.0f, 6800.0f), sf::Vector2f(2.8725e12f, 0.0f), sf::Color::Cyan, false);
+    Planet neptune(1.0241e26f, 2.4622e7f, sf::Vector2f(0.0f, 5430.0f), sf::Vector2f(4.4951e12f, 0.0f), sf::Color::Blue, false);
 
-    Planet moon(0.07346e24f, 1737.4e3f, sf::Vector2f(0.0f, 1082.0f), sf::Vector2f(0.3633e9f, 0.0f), sf::Color(0, 45, 4, 255), false);
-    Planet earth(5.9724e24f, 6371.0e3f, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), sf::Color(128, 128, 128, 255),  true); 
-    Planet asteriod(939e12f, 476000.0f, sf::Vector2f(800.0f, 0.0f), sf::Vector2f(-0.3633e9f, 0.3633e9f), sf::Color(128, 128, 128, 255), false);
 
-    group.addPlanet("moon", moon);
+    group.addPlanet("sun", sun);
+    group.addPlanet("mercury", mercury);
+    group.addPlanet("venus", venus);
     group.addPlanet("earth", earth);
-    group.addPlanet("asteriod", asteriod);
+    group.addPlanet("mars", mars);
+    group.addPlanet("jupiter", jupiter);
+    group.addPlanet("saturn", saturn);
+    group.addPlanet("uranus", uranus);
+    group.addPlanet("neptune", neptune);
 
     sf::RenderWindow window(sf::VideoMode(1200, 1000), "Gravity Simulation", sf::Style::Close, sf::ContextSettings(0, 0, 8));
 
@@ -31,13 +43,40 @@ int main() {
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
+            else if (event.type == sf::Event::MouseWheelScrolled) {
+            if (event.mouseWheelScroll.delta > 0) {
+                view.zoom(0.9f);
+            } else {
+                view.zoom(1.1f);
+            }
+            window.setView(view);
+            }
+            else if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code == sf::Keyboard::W) {
+                    view.move(0.0f, -10.0f);
+                }
+                if (event.key.code == sf::Keyboard::A) {
+                    view.move(-10.0f, 0.0f);
+                }
+                if (event.key.code == sf::Keyboard::D) {
+                    view.move(10.0f, 0.0f);
+                }
+                if (event.key.code == sf::Keyboard::S) {
+                    view.move(0.0f, 10.0f);
+                }
+                window.setView(view);
+            }
         }
 
         window.clear(sf::Color(20,20,20,255));
 
-        nextPosition(1000.0f, group);
+        nextPosition(50000.0f, group);
         for(const auto& [name, planet] : group.planets) {
             window.draw(planet.shape);
+            sf::CircleShape point(1.0f);
+            point.setFillColor(planet.color);
+            point.setPosition(planet.position.x * DISTANCE_SCALE, planet.position.y * DISTANCE_SCALE);
+            window.draw(point);
         }
 
         window.display();
