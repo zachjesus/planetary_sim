@@ -1,38 +1,38 @@
 #include "planet.h"
 #include <cmath>
+#include <iostream>
 #include <utility>
 #include <SFML/Graphics.hpp>
 
 const double G = 6.67430e-11; // m^3 kg^-1 s^-2
 
-void nextPosition(float dt, PlanetGroup& group) {
-    std::map<std::string, std::pair<float, float>> netForces;   
+void nextPosition(double long dt, PlanetGroup& group) {
+    std::map<std::string, std::pair<double long, double long>> netForces;   
 
     for (const auto& [name, planet] : group.planets) {
         netForces[name] = {0.0f, 0.0f};
     }
 
     for(auto& [n1, p1]: group.planets) {
-        if (p1.isStatic) continue;
         for(auto& [n2, p2]: group.planets) {
             if (n1 == n2) continue;
 
-            float m1 = p1.mass;
-            float m2 = p2.mass;
-            float dx = p2.position.x - p1.position.x;
-            float dy = p2.position.y - p1.position.y;
-            float rSquared =  dx * dx + dy * dy;
+            double long m1 = p1.mass;
+            double long m2 = p2.mass;
+            double long dx = p2.position.x - p1.position.x;
+            double long dy = p2.position.y - p1.position.y;
+            double long rSquared =  dx * dx + dy * dy;
 
             if (rSquared == 0.0f) continue;
 
-            float force = static_cast<float>((G * m1 * m2) / rSquared);
+            double long force = static_cast<double long>((G * m1 * m2) / rSquared);
 
-            float r = sqrt(rSquared);
-            float unitDx = dx / r;
-            float unitDy = dy / r;
+            double long r = sqrt(rSquared);
+            double long unitDx = dx / r;
+            double long unitDy = dy / r;
 
-            float fx = force * unitDx;
-            float fy = force * unitDy;
+            double long fx = force * unitDx;
+            double long fy = force * unitDy;
 
             netForces[n1].first += fx;
             netForces[n1].second += fy;
@@ -40,18 +40,22 @@ void nextPosition(float dt, PlanetGroup& group) {
     }
 
     for (auto& [name, planet] : group.planets) {
-        float fx = netForces[name].first;
-        float fy = netForces[name].second;
+        if (planet.isStatic) continue;
+        double long fx = netForces[name].first;
+        double long fy = netForces[name].second;
         
-        float ax = fx / planet.mass;
-        float ay = fy / planet.mass;
+        double long ax = fx / planet.mass;
+        double long ay = fy / planet.mass;
         
         planet.velocity.x += ax * dt;
         planet.velocity.y += ay * dt;
         
-        planet.position.x += planet.velocity.x * dt;
-        planet.position.y += planet.velocity.y * dt;
+        static_cast<float>(planet.position.x += planet.velocity.x * dt);
+        static_cast<float>(planet.position.y += planet.velocity.y * dt);
 
-        planet.shape.setPosition(planet.position.x * DISTANCE_SCALE, planet.position.y * DISTANCE_SCALE);
+        if(name == "mercury") {
+            std::cout << "Mercury: " << planet.position.x << ", " << planet.position.y << std::endl;
+        }
+        planet.shape.setPosition(static_cast<float>(planet.position.x * DISTANCE_SCALE), static_cast<float>(planet.position.y * DISTANCE_SCALE));
     }
 }
