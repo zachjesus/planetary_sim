@@ -6,8 +6,8 @@
 #include <string>
 #include <map>
 
-constexpr double RADIUS_SCALE = 10e-6f;
-constexpr double DISTANCE_SCALE = 10e-7f;
+constexpr double RADIUS_SCALE = 10e-8f;
+constexpr double DISTANCE_SCALE = 10e-10f;
 
 struct Planet {
     double mass;            // kg
