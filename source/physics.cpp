@@ -1,9 +1,8 @@
-#include "planet.h"
+#include <SFML/Graphics.hpp>
+#include "../include/physics.h"
+#include "../include/planet.h"
 #include <cmath>
 #include <utility>
-#include <SFML/Graphics.hpp>
-
-const double G = 6.67430e-11; // m^3 kg^-1 s^-2
 
 void nextPosition(float dt, PlanetGroup& group) {
     std::map<std::string, std::pair<float, float>> netForces;   

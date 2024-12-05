@@ -1,8 +1,8 @@
+#include <SFML/Graphics.hpp>
 #include <utility>
 #include <string>
 #include <map>
-#include "planet.h"
-#include <SFML/Graphics.hpp>
+#include "../include/planet.h"
 
 Planet::Planet(const float mass, const float radius, const sf::Vector2f velocity, const sf::Vector2f position, const sf::Color color, const bool isStatic)
     : mass(mass), radius(radius), velocity(velocity), position(position), color(color), isStatic(isStatic){

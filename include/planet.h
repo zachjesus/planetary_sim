@@ -1,10 +1,10 @@
 #ifndef PLANET_H
 #define PLANET_H
 
+#include <SFML/Graphics.hpp>
 #include <utility>
 #include <string>
 #include <map>
-#include <SFML/Graphics.hpp>
 
 constexpr float RADIUS_SCALE = 10e-6f;
 constexpr float DISTANCE_SCALE = 10e-7f;
