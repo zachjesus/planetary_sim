@@ -4,24 +4,22 @@
 #include <iostream>
 #include "../include/planet.h"
 #include "../include/physics.h"
+#include "../include/guiHelper.h"
 
 int main() {
     PlanetGroup group;
     
-    // Main Window
-    sf::RenderWindow mainWindow(sf::VideoMode(1200, 1000), "Gravity Simulation", sf::Style::Close, sf::ContextSettings(0, 0, 8));
-    sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(mainWindow.getSize().x, mainWindow.getSize().y));
+    sf::RenderWindow mainWindow(sf::VideoMode(1800, 1000), "Gravity Simulation", sf::Style::Close, sf::ContextSettings(0, 0, 8));
+    sf::View mainView(sf::FloatRect(0, 0, 1200, 1000));
 
-    mainWindow.setView(view);
+    mainWindow.setView(mainView);
     mainWindow.setFramerateLimit(60);
     mainWindow.setVerticalSyncEnabled(true);
     mainWindow.setPosition(sf::Vector2i(0,0));
 
-    // GUI
-    sf::RenderWindow guiWindow(sf::VideoMode(600, 1000), "", sf::Style::Close, sf::ContextSettings(0, 0, 8));
-    tgui::Gui gui(guiWindow);
-    guiWindow.setPosition(sf::Vector2i(mainWindow.getPosition().x+1244, (mainWindow.getPosition().y+44)));
-
+    GuiHelper gui = GuiHelper(mainWindow, group);
+    gui.createPanel();
+    
     // Event Loop
     while(mainWindow.isOpen()) {        
         sf::Event event;
@@ -29,19 +27,15 @@ int main() {
             if (event.type == sf::Event::Closed) {
                 mainWindow.close();
             }
+            gui.guiHandleEvent(event);
         }
-
-        mainWindow.clear(sf::Color(20,20,20,255));
-        guiWindow.clear(sf::Color(20,20,20,255));
 
         for(const auto& [name, planet] : group.planets) {
             mainWindow.draw(planet.shape);
         }
 
         mainWindow.display();
-
-        guiWindow.setPosition(sf::Vector2i(mainWindow.getPosition().x+1244, (mainWindow.getPosition().y+44)));
+        mainWindow.clear(sf::Color(20,20,20,255));
         gui.draw();
-        guiWindow.display();
     }
 }

@@ -4,8 +4,8 @@
 #include <cmath>
 #include <utility>
 
-void nextPosition(float dt, PlanetGroup& group) {
-    std::map<std::string, std::pair<float, float>> netForces;   
+void nextPosition(double dt, PlanetGroup& group) {
+    std::map<std::string, std::pair<double, double>> netForces;   
 
     for (const auto& [name, planet] : group.planets) {
         netForces[name] = {0.0f, 0.0f};
@@ -16,22 +16,22 @@ void nextPosition(float dt, PlanetGroup& group) {
         for(auto& [n2, p2]: group.planets) {
             if (n1 == n2) continue;
 
-            float m1 = p1.mass;
-            float m2 = p2.mass;
-            float dx = p2.position.x - p1.position.x;
-            float dy = p2.position.y - p1.position.y;
-            float rSquared =  dx * dx + dy * dy;
+            double m1 = p1.mass;
+            double m2 = p2.mass;
+            double dx = p2.position.x - p1.position.x;
+            double dy = p2.position.y - p1.position.y;
+            double rSquared =  dx * dx + dy * dy;
 
             if (rSquared == 0.0f) continue;
 
-            float force = static_cast<float>((G * m1 * m2) / rSquared);
+            double force = static_cast<double>((G * m1 * m2) / rSquared);
 
-            float r = sqrt(rSquared);
-            float unitDx = dx / r;
-            float unitDy = dy / r;
+            double r = sqrt(rSquared);
+            double unitDx = dx / r;
+            double unitDy = dy / r;
 
-            float fx = force * unitDx;
-            float fy = force * unitDy;
+            double fx = force * unitDx;
+            double fy = force * unitDy;
 
             netForces[n1].first += fx;
             netForces[n1].second += fy;
@@ -39,11 +39,11 @@ void nextPosition(float dt, PlanetGroup& group) {
     }
 
     for (auto& [name, planet] : group.planets) {
-        float fx = netForces[name].first;
-        float fy = netForces[name].second;
+        double fx = netForces[name].first;
+        double fy = netForces[name].second;
         
-        float ax = fx / planet.mass;
-        float ay = fy / planet.mass;
+        double ax = fx / planet.mass;
+        double ay = fy / planet.mass;
         
         planet.velocity.x += ax * dt;
         planet.velocity.y += ay * dt;

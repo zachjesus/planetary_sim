@@ -6,19 +6,19 @@
 #include <string>
 #include <map>
 
-constexpr float RADIUS_SCALE = 10e-6f;
-constexpr float DISTANCE_SCALE = 10e-7f;
+constexpr double RADIUS_SCALE = 10e-6f;
+constexpr double DISTANCE_SCALE = 10e-7f;
 
 struct Planet {
-    float mass;            // kg
-    float radius;          // m
+    double mass;            // kg
+    double radius;          // m
     sf::Vector2f velocity; // (m/s, m/s)
     sf::Vector2f position; // (m, m)
     sf::CircleShape shape;
     sf::Color color;
     bool isStatic;
 
-    Planet(const float mass, const float radius, const sf::Vector2f velocity, const sf::Vector2f position, const sf::Color color, const bool isStatic);
+    Planet(const double mass, const double radius, const sf::Vector2f velocity, const sf::Vector2f position, const sf::Color color, const bool isStatic);
 };
 
 
