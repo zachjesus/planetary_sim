@@ -10,9 +10,9 @@ constexpr double RADIUS_SCALE = 10e-8f;
 constexpr double DISTANCE_SCALE = 10e-10f;
 
 struct Planet {
-    double mass;            // kg
-    double radius;          // m
-    sf::Vector2f velocity; // (m/s, m/s)
+    double mass;              // kg
+    double radius;           // m
+    sf::Vector2f velocity;  // (m/s, m/s)
     sf::Vector2f position; // (m, m)
     sf::CircleShape shape;
     sf::Color color;
