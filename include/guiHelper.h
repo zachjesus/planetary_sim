@@ -18,10 +18,10 @@ private:
 
 public:
     GuiHelper(sf::RenderWindow& mainWindow, PlanetGroup& group);
-
     void createPanel();
     void draw();
     void guiHandleEvent(sf::Event& event);
+    void addPlanet(sf::Vector2f pos);
 };
 
 #endif

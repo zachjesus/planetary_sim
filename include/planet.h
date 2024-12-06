@@ -5,6 +5,7 @@
 #include <utility>
 #include <string>
 #include <map>
+#include <forward_list>
 
 constexpr double RADIUS_SCALE = 10e-8f;
 constexpr double DISTANCE_SCALE = 10e-10f;
@@ -17,18 +18,18 @@ struct Planet {
     sf::CircleShape shape;
     sf::Color color;
     bool isStatic;
+    int id;
 
     Planet(const double mass, const double radius, const sf::Vector2f velocity, const sf::Vector2f position, const sf::Color color, const bool isStatic);
 };
 
 
 struct PlanetGroup {
-    std::map<std::string, Planet> planets;
+    std::forward_list<Planet> planets;
+    int currID = 0;
 
-    bool addPlanet(const std::string& name, const Planet& p);
-    const Planet& getPlanet(const std::string& name);
-    bool removePlanet(const std::string& name);
-    void updatePlanet(const std::string& name, const Planet& p);
+    void addPlanet(const Planet p);
+    void clearPlanets();
 };
 
 #endif

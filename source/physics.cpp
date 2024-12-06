@@ -5,16 +5,16 @@
 #include <utility>
 
 void nextPosition(double dt, PlanetGroup& group) {
-    std::map<std::string, std::pair<double, double>> netForces;   
+    std::map<int, std::pair<double, double>> netForces;   
 
-    for (const auto& [name, planet] : group.planets) {
-        netForces[name] = {0.0f, 0.0f};
+    for (auto& planet : group.planets) {
+        netForces[planet.id] = {0.0f, 0.0f};
     }
 
-    for(auto& [n1, p1]: group.planets) {
+    for(auto& p1 : group.planets) {
         if (p1.isStatic) continue;
-        for(auto& [n2, p2]: group.planets) {
-            if (n1 == n2) continue;
+        for(auto& p2 : group.planets) {
+            if (p1.id == p2.id) continue;
 
             double m1 = p1.mass;
             double m2 = p2.mass;
@@ -33,14 +33,14 @@ void nextPosition(double dt, PlanetGroup& group) {
             double fx = force * unitDx;
             double fy = force * unitDy;
 
-            netForces[n1].first += fx;
-            netForces[n1].second += fy;
+            netForces[p1.id].first += fx;
+            netForces[p1.id].second += fy;
         }
     }
 
-    for (auto& [name, planet] : group.planets) {
-        double fx = netForces[name].first;
-        double fy = netForces[name].second;
+    for (auto& planet : group.planets) {
+        double fx = netForces[planet.id].first;
+        double fy = netForces[planet.id].second;
         
         double ax = fx / planet.mass;
         double ay = fy / planet.mass;
