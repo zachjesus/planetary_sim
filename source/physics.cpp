@@ -3,6 +3,7 @@
 #include "../include/planet.h"
 #include <cmath>
 #include <utility>
+#include <iostream>
 
 void nextPosition(double dt, PlanetGroup& group) {
     std::map<int, std::pair<double, double>> netForces;   
@@ -26,7 +27,7 @@ void nextPosition(double dt, PlanetGroup& group) {
 
             double force = static_cast<double>((G * m1 * m2) / rSquared);
 
-            double r = sqrt(rSquared);
+            double r = std::sqrt(rSquared);
             double unitDx = dx / r;
             double unitDy = dy / r;
 
@@ -51,6 +52,6 @@ void nextPosition(double dt, PlanetGroup& group) {
         planet.position.x += planet.velocity.x * dt;
         planet.position.y += planet.velocity.y * dt;
 
-        planet.shape.setPosition(planet.position.x * DISTANCE_SCALE, planet.position.y * DISTANCE_SCALE);
+        planet.shape.setPosition(static_cast<float>(planet.position.x * DISTANCE_SCALE), static_cast<float>(planet.position.y * DISTANCE_SCALE));
     }
 }

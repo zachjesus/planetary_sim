@@ -21,7 +21,6 @@ int main() {
     defaultCursor.loadFromSystem(sf::Cursor::Hand);
     crossCursor.loadFromSystem(sf::Cursor::Cross);
 
-
     enum class CursorType { Default, Cross };
     CursorType currentCursor = CursorType::Default;
     mainWindow.setMouseCursor(defaultCursor);
@@ -40,8 +39,10 @@ int main() {
                 mainWindow.close();
             }
             if(mousePos.x < 1200 && event.type == sf::Event::MouseButtonPressed) {
-                std::cout << "("<< worldPos.x << ", "<< worldPos.y << ")" << std::endl;
-                gui.addPlanet(worldPos);
+                if(event.mouseButton.button == sf::Mouse::Left) {
+                    std::cout << "("<< worldPos.x << ", "<< worldPos.y << ")" << std::endl;
+                    gui.addPlanet(worldPos);
+                }
             }
             if(mousePos.x < 1200) {
                 if (currentCursor != CursorType::Cross) {
@@ -58,13 +59,15 @@ int main() {
             gui.guiHandleEvent(event);
         }        
 
-        nextPosition(1000, group);
-        
+        nextPosition(100000, group);
+
+       mainWindow.clear(sf::Color(20, 20, 20, 255));
+
         for(auto& planet : group.planets) {
             mainWindow.draw(planet.shape);
         }
 
-        mainWindow.display();
         gui.draw();
+        mainWindow.display();
     }
 }

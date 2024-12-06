@@ -14,6 +14,7 @@ Planet::Planet(const double mass, const double radius, const sf::Vector2f veloci
 
 void PlanetGroup::addPlanet(const Planet p) {
     planets.push_front(p);
+    currID++;
 }
 
 void PlanetGroup::clearPlanets() {

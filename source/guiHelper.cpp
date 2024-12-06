@@ -16,7 +16,7 @@ void GuiHelper::addPlanet(sf::Vector2f pos) {
     std::cout << "Adding planet at: " << pos.x/DISTANCE_SCALE << ", " << pos.y/DISTANCE_SCALE << std::endl;
 
     this->newPlanet.id = this->group.currID;
-    this->group.currID++;
+    std::cout << "Planet ID: " << this->newPlanet.id << std::endl;
 
     this->group.addPlanet(this->newPlanet); 
 }
