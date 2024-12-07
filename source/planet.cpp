@@ -18,5 +18,6 @@ void PlanetGroup::addPlanet(const Planet p) {
 }
 
 void PlanetGroup::clearPlanets() {
+    currID = 0;
     planets.clear();
 }

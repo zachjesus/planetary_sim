@@ -40,6 +40,10 @@ void nextPosition(double dt, PlanetGroup& group) {
     }
 
     for (auto& planet : group.planets) {
+        if (planet.isStatic) {
+            planet.shape.setPosition(static_cast<float>(planet.position.x * DISTANCE_SCALE), static_cast<float>(planet.position.y * DISTANCE_SCALE));
+            continue;
+        }
         double fx = netForces[planet.id].first;
         double fy = netForces[planet.id].second;
         

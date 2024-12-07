@@ -22,6 +22,7 @@ public:
     void draw();
     void guiHandleEvent(sf::Event& event);
     void addPlanet(sf::Vector2f pos);
+    void velocityDirection();
 };
 
 #endif

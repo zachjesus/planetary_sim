@@ -12,34 +12,40 @@ GuiHelper::GuiHelper(sf::RenderWindow& mainWindow, PlanetGroup& group)
 }
 
 void GuiHelper::addPlanet(sf::Vector2f pos) {
-    this->newPlanet.position = sf::Vector2f(pos.x/DISTANCE_SCALE, pos.y/DISTANCE_SCALE);
+    Planet copyPlanet = this->newPlanet;
+    copyPlanet.position = sf::Vector2f(pos.x/DISTANCE_SCALE, pos.y/DISTANCE_SCALE);
     std::cout << "Adding planet at: " << pos.x/DISTANCE_SCALE << ", " << pos.y/DISTANCE_SCALE << std::endl;
 
-    this->newPlanet.id = this->group.currID;
-    std::cout << "Planet ID: " << this->newPlanet.id << std::endl;
+    copyPlanet.id = this->group.currID;
+    std::cout << "Planet Static: " << copyPlanet.isStatic << std::endl;
 
-    this->group.addPlanet(this->newPlanet); 
+    this->group.addPlanet(copyPlanet); 
 }
 
 void GuiHelper::createPanel() {
     //Panel
     auto panel = tgui::Panel::create({"600px", "1000px"});
     panel->setPosition(1200, 0);
-    panel->getRenderer()->setBackgroundColor(tgui::Color(145, 145, 145));
-    panel->getRenderer()->setBorderColor(tgui::Color(243,243,243));
+    panel->getRenderer()->setBackgroundColor(tgui::Color(165, 165, 165));
+    panel->getRenderer()->setBorderColor(tgui::Color(133, 133, 133));
     panel->getRenderer()->setBorders(6);
 
     //Widgets
     auto massSlider = tgui::Slider::create(-30.0f, 30.0f);
     massSlider->setStep(.1f);
+    massSlider->setValue(1.989e30f);
     auto radSlider = tgui::Slider::create(0, 4e9);
+    radSlider->setValue(6.9634e8f);
     auto velSlider = tgui::Slider::create(0, 50000);
     auto redSlider = tgui::Slider::create(0, 255);
+    redSlider->setValue(255);
     auto blueSlider = tgui::Slider::create(0, 255);
+    blueSlider->setValue(255);
     auto greenSlider = tgui::Slider::create(0, 255);
     auto staticBox = tgui::CheckBox::create();
-    staticBox->setScale({0.4f, 0.95f});
+    staticBox->setScale({0.3f, .8f});
     staticBox->setChecked(true);
+    auto clearButton = tgui::Button::create("Clear");
 
     //Hooks
     massSlider->onValueChange([this](float value) {
@@ -74,44 +80,43 @@ void GuiHelper::createPanel() {
         this->newPlanet.shape.setFillColor(this->newPlanet.color);
     });
 
-    staticBox->onCheck([this](bool checked) {
-        this->newPlanet.isStatic = checked;
+    staticBox->onClick([this]() {
+        this->newPlanet.isStatic = !this->newPlanet.isStatic;
         std::cout << this->newPlanet.isStatic << std::endl;
     });
 
-    staticBox->onUncheck([this](bool checked) {
-        this->newPlanet.isStatic = checked;
-        std::cout << this->newPlanet.isStatic << std::endl;
+    clearButton->onPress([this]() {
+        this->group.clearPlanets();
     });
  
     //Labels
     auto massLabel = tgui::Label::create("Mass");
     massLabel->setTextSize(16);
-    massLabel->getRenderer()->setTextColor(tgui::Color(75, 102, 59));
+    massLabel->getRenderer()->setTextColor(tgui::Color(0,128,128));
 
     auto radLabel = tgui::Label::create("Radius");
     radLabel->setTextSize(16);
-    radLabel->getRenderer()->setTextColor(tgui::Color(75, 102, 59));
+    radLabel->getRenderer()->setTextColor(tgui::Color(0,128,128));
 
     auto velLabel = tgui::Label::create("Velocity");
     velLabel->setTextSize(16);
-    velLabel->getRenderer()->setTextColor(tgui::Color(75, 102, 59));
+    velLabel->getRenderer()->setTextColor(tgui::Color(0,128,128));
 
     auto redLabel = tgui::Label::create("R");
     redLabel->setTextSize(16);
-    redLabel->getRenderer()->setTextColor(tgui::Color(75, 102, 59));
+    redLabel->getRenderer()->setTextColor(tgui::Color::Red);
 
     auto blueLabel = tgui::Label::create("G");
     blueLabel->setTextSize(16);
-    blueLabel->getRenderer()->setTextColor(tgui::Color(75, 102, 59));
+    blueLabel->getRenderer()->setTextColor(tgui::Color::Blue);
 
     auto greenLabel = tgui::Label::create("B");
     greenLabel->setTextSize(16);
-    greenLabel->getRenderer()->setTextColor(tgui::Color(75, 102, 59));
+    greenLabel->getRenderer()->setTextColor(tgui::Color::Green);
 
     auto staticLabel = tgui::Label::create("Static");
     staticLabel->setTextSize(16);
-    staticLabel->getRenderer()->setTextColor(tgui::Color(75, 102, 59));
+    staticLabel->getRenderer()->setTextColor(tgui::Color(0,128,128));
 
     //Mass Velocity Radius 
     auto layout = tgui::VerticalLayout::create();
@@ -125,15 +130,15 @@ void GuiHelper::createPanel() {
     layout->add(velSlider, "velSlider");
     
     //Checkbox
-    auto checkboxLayout = tgui::HorizontalLayout::create();
-    checkboxLayout->setSize("104px", "21px"); 
+    auto checkboxLayout = tgui::VerticalLayout::create();
+    checkboxLayout->setSize("70px", "45px"); 
     checkboxLayout->setPosition("50px", "215px");
     checkboxLayout->add(staticLabel);
     checkboxLayout->add(staticBox);
 
     //RGB
     auto rgbLayout = tgui::HorizontalLayout::create();
-    rgbLayout->setSize("125px", "50px");
+    rgbLayout->setSize("130px", "60px");
     rgbLayout->setPosition("150px", "220px");
     rgbLayout->add(redLabel);
     rgbLayout->add(redSlider);
@@ -141,6 +146,12 @@ void GuiHelper::createPanel() {
     rgbLayout->add(blueSlider);
     rgbLayout->add(greenLabel);
     rgbLayout->add(greenSlider);
+
+    //Clear
+    auto clearLayout = tgui::HorizontalLayout::create();
+    clearLayout->setSize("40px", "25px");
+    clearLayout->setPosition("305px", "225px");
+    clearLayout->add(clearButton);
     
     //Canvas
     auto canvas = tgui::CanvasSFML::create({"600px", "600px"});
@@ -153,6 +164,7 @@ void GuiHelper::createPanel() {
     panel->add(checkboxLayout);
     panel->add(rgbLayout);
     panel->add(planetCanvas);
+    panel->add(clearLayout);
     this->gui.add(panel);
 }
 

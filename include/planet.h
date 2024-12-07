@@ -7,7 +7,7 @@
 #include <map>
 #include <forward_list>
 
-constexpr double RADIUS_SCALE = 10e-8f;
+constexpr double RADIUS_SCALE = 10e-9f;
 constexpr double DISTANCE_SCALE = 10e-10f;
 
 struct Planet {

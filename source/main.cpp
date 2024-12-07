@@ -9,8 +9,8 @@
 int main() {
     PlanetGroup group;
     
-    sf::RenderWindow mainWindow(sf::VideoMode(1800, 1000), "Gravity Simulation", sf::Style::Close, sf::ContextSettings(0, 0, 8));
-    sf::View mainView(sf::FloatRect(0, 0, 1200, 1000));
+    sf::RenderWindow mainWindow(sf::VideoMode(1800, 1000), "Gravity Simulation", sf::Style::Titlebar, sf::ContextSettings(0, 0, 8));
+    sf::View mainView(sf::FloatRect(0, 0, 1800, 1000));
     mainWindow.setView(mainView);
     mainWindow.setFramerateLimit(60);
     mainWindow.setVerticalSyncEnabled(true);
@@ -40,18 +40,17 @@ int main() {
             }
             if(mousePos.x < 1200 && event.type == sf::Event::MouseButtonPressed) {
                 if(event.mouseButton.button == sf::Mouse::Left) {
-                    std::cout << "("<< worldPos.x << ", "<< worldPos.y << ")" << std::endl;
                     gui.addPlanet(worldPos);
                 }
             }
             if(mousePos.x < 1200) {
-                if (currentCursor != CursorType::Cross) {
+                if(currentCursor != CursorType::Cross) {
                     mainWindow.setMouseCursor(crossCursor);
                     currentCursor = CursorType::Cross;
                 }
             }
             else if(mousePos.x >= 1200) {
-                if (currentCursor != CursorType::Default) {
+                if(currentCursor != CursorType::Default) {
                     mainWindow.setMouseCursor(defaultCursor);
                     currentCursor = CursorType::Default;
                 }
