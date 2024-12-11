@@ -46,6 +46,23 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "typeinfo": "cpp",
-        "xiosbase": "cpp"
+        "xiosbase": "cpp",
+        "iostream": "cpp",
+        "any": "cpp",
+        "bitset": "cpp",
+        "chrono": "cpp",
+        "codecvt": "cpp",
+        "cstring": "cpp",
+        "list": "cpp",
+        "set": "cpp",
+        "unordered_set": "cpp",
+        "optional": "cpp",
+        "ratio": "cpp",
+        "regex": "cpp",
+        "iomanip": "cpp",
+        "istream": "cpp",
+        "sstream": "cpp",
+        "typeindex": "cpp",
+        "variant": "cpp"
     }
 }
