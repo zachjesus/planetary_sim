@@ -1,4 +1,4 @@
-Planetary Motion using Newton's Law of Universal Gravitonal. 
+Planetary Motion using Newton's Law of Universal Gravitonal. GUI allows you to quickly set up orbit simulations by customozing your planet than clicking on the screen. 
 
 ![image](https://github.com/user-attachments/assets/07af73ea-754a-4a35-807d-e67b0cbdb950)
 
