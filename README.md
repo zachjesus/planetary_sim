@@ -1,4 +1,4 @@
-Planetary Motion using Newton's Law of Universal Gravitonal. GUI in semi-working state currently. Still in the works.
+Planetary Motion using Newton's Law of Universal Gravitonal. 
 
 ![image](https://github.com/user-attachments/assets/07af73ea-754a-4a35-807d-e67b0cbdb950)
 
